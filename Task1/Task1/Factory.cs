@@ -4,13 +4,13 @@ public class Factory
 {
     private CancellationTokenSource _cts = new ();
     
-    private static readonly Dictionary<string, IStrategy> _strategies = new()
+    private static readonly Dictionary<string, Strategy> _strategies = new()
     {
         { "txt", new TxtStrategy() },
-        //TODO { "csv", new .. }
+        { "csv", new CsvStrategy() }
     };
     
-    private static IStrategy FactoryMethod(string type)
+    private static Strategy FactoryMethod(string type)
     {
         try
         {
@@ -26,7 +26,7 @@ public class Factory
     public void Start(string pathFrom, string pathTo, string type)
     {
         var strategy = FactoryMethod(type);
-        
+
         var fsw = new FileSystemWatcher(pathFrom);
         
         fsw.EnableRaisingEvents = true;

@@ -13,3 +13,5 @@ S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.dll
 S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\ref\Task1.dll
 S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.pdb
 S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.genruntimeconfig.cache
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\CsvHelper.dll
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.csproj.CopyComplete
