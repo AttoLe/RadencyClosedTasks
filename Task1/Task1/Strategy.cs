@@ -19,8 +19,8 @@ public abstract class Strategy
         await foreach (var line in lines.WithCancellation(ct))
         {
             var dataLine = new DataLine();
-            var task1 = Task.Run(() => DataLineValidateParserTxt.Validate(line), ct);
-            var task2 = Task.Run(() => DataLineValidateParserTxt.ParserTxt(line, ref dataLine), ct);
+            var task1 = Task.Run(() => DataLineValidateParser.Validate(line), ct);
+            var task2 = Task.Run(() => DataLineValidateParser.Parser(line, ref dataLine), ct);
             if (await task1 && await task2)
             {
                 Console.WriteLine(dataLine.FirstName + "\t" + dataLine.LastName);
@@ -70,24 +70,25 @@ public class CsvStrategy : Strategy
             yield return line;
         }
         
-        /*var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = true,
-        };
-        
-        var csvReader = new CsvReader(new StreamReader(fullPath), config);
-        
-        //var f = new DataLineMap(csvReader.HeaderRecord!);
-        csvReader.Context.RegisterClassMap<DataLineMap>();
-        
-        while (await csvReader.ReadAsync())
-        {
-            var line = csvReader.GetRecord<DataLine>();
-            Console.WriteLine(line.FirstName +"\t" + line.LastName);
-            //if(string.IsNullOrWhiteSpace(line))
-                //continue;
-            
-            yield return "line";
-        }*/
+        /* var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+         {
+             HasHeaderRecord = true,
+         };
+         
+         var csvReader = new CsvReader(new StreamReader(fullPath), config);
+         
+         //var f = new DataLineMap(csvReader.HeaderRecord!);
+         //csvReader.Context.RegisterClassMap<DataLineMap>();
+         
+         while (await csvReader.ReadAsync())
+         {
+             
+             var line = csvReader.GetRecord<DataLine>();
+             Console.WriteLine(line.FirstName +"\t" + line.LastName);
+             //if(string.IsNullOrWhiteSpace(line))
+                 //continue;
+             
+             yield return "line";
+         }*/
     }
 }

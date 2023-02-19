@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Task1;
 
-public static class DataLineValidateParserTxt
+public static class DataLineValidateParser
 {
     public static bool Validate(string line)
     {
@@ -13,7 +13,7 @@ public static class DataLineValidateParserTxt
         return Regex.IsMatch(line, allRegex);
     }
 
-    public static bool ParserTxt(string line, ref DataLine dataLine)
+    public static bool Parser(string line, ref DataLine dataLine)
     {
         try
         {

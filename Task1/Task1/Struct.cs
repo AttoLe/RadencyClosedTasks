@@ -16,7 +16,7 @@ public struct DataLine
     public DataLine() { }
 }
 
-/*public sealed class DataLineMap : ClassMap<DataLine>
+public sealed class DataLineMap : ClassMap<DataLine>
 {
     public DataLineMap()
     {
@@ -45,4 +45,4 @@ public class DateOnlyConverter : DefaultTypeConverter
         //var v = base.ConvertFromString(text, row, memberMapData)?.ToString();
         return DateOnly.ParseExact(text!.Trim(), "yyyy-dd-mm", CultureInfo.InvariantCulture);
     }
-}*/
+}

@@ -7,7 +7,7 @@ public static class CommandHandler
     public static void Start()
     {
         //TODO config executing
-        //_factory.Start(@"S:\data", "out", "txt");
+        _factory.Start(@"S:\data", "out", "txt");
         _factory.Start(@"S:\data", "out", "csv");
         Activate();
     }
