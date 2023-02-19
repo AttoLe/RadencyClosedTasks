@@ -1,0 +1,15 @@
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\Task1.exe
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\Task1.deps.json
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\Task1.runtimeconfig.json
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\Task1.dll
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\ref\Task1.dll
+S:\repos\RedencyClosedTasks\Task1\Task1\bin\Debug\net6.0\Task1.pdb
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.csproj.AssemblyReference.cache
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.GeneratedMSBuildEditorConfig.editorconfig
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.AssemblyInfoInputs.cache
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.AssemblyInfo.cs
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.csproj.CoreCompileInputs.cache
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.dll
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\ref\Task1.dll
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.pdb
+S:\repos\RedencyClosedTasks\Task1\Task1\obj\Debug\net6.0\Task1.genruntimeconfig.cache
