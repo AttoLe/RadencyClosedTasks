@@ -1,9 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
-using CsvHelper;
-using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
-
+﻿
 namespace Task1;
 
 public struct DataLine

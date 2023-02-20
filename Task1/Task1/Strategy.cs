@@ -1,10 +1,6 @@
 ﻿using System.Diagnostics;
-using System.Globalization;
-using CsvHelper;
-using CsvHelper.Configuration;
 
 namespace Task1;
-
 
 public abstract class Strategy
 {
