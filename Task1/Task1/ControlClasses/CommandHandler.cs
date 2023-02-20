@@ -1,4 +1,8 @@
-﻿namespace Task1;
+﻿using Task1.DataHandlers.Readers;
+using Task1.DataHandlers.Writers;
+using Task1.MainClasses;
+
+namespace Task1.ControlClasses;
 
 public static class CommandHandler
 {
@@ -6,14 +10,12 @@ public static class CommandHandler
     
     public static void Start(string configPath)
     {
-        var paths = ConfigReader.GetPaths(configPath);
+        var paths = ConfigHandler.GetPaths(configPath);
         
         if(paths == null)
             Exit();
-        
-        //@"S:\data"
-        
-        _factory = new Factory(paths!.Value);
+
+        _factory = new Factory(paths!.Value, new JsonWriteData(), true);
         _factory.Start("txt");
         _factory.Start("csv");
         Activate();

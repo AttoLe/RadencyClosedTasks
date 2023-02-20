@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Task1.Structures;
 
-namespace Task1;
+namespace Task1.ValidateParser;
 
 public static class DataLineValidateParser
 {
@@ -13,7 +14,7 @@ public static class DataLineValidateParser
         return Regex.IsMatch(line, allRegex);
     }
 
-    public static bool Parser(string line, ref DataLine dataLine)
+    public static bool Parse(string line, ref DataLine dataLine)
     {
         try
         {
@@ -21,7 +22,7 @@ public static class DataLineValidateParser
             var i2 = line.IndexOf("”,", StringComparison.InvariantCulture);
 
             var fullAddress = line.Substring(i1, i2 - i1 + 1);
-            dataLine.City = fullAddress.Split(',').First().Trim();
+            dataLine.City = fullAddress.Split(',').First().Trim(' ', '“');
             
             var data = line.Replace(fullAddress, "").Split(", ")
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
