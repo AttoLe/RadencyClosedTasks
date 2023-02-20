@@ -8,7 +8,7 @@ namespace Task1;
 
 public struct DataLine
 {
-    public string FirstName = string.Empty, LastName = string.Empty, City = string.Empty, Service = string.Empty;
+    public string Name = string.Empty, City = string.Empty, Service = string.Empty;
     public decimal Payment = 0;
     public DateOnly Date = default;
     public long AccountNumber = 0;
@@ -16,7 +16,22 @@ public struct DataLine
     public DataLine() { }
 }
 
-public sealed class DataLineMap : ClassMap<DataLine>
+public struct PathStruct
+{
+    public readonly string PathFrom, PathTo;
+
+    public PathStruct(string[] paths) => 
+        (PathFrom, PathTo) = (paths[0], paths[1]);
+    
+    
+    public PathStruct(string pathTo, string pathFrom)
+    {
+        PathFrom = pathFrom;
+        PathTo = pathTo;
+    }
+}
+
+/*public sealed class DataLineMap : ClassMap<DataLine>
 {
     public DataLineMap()
     {
@@ -45,4 +60,4 @@ public class DateOnlyConverter : DefaultTypeConverter
         //var v = base.ConvertFromString(text, row, memberMapData)?.ToString();
         return DateOnly.ParseExact(text!.Trim(), "yyyy-dd-mm", CultureInfo.InvariantCulture);
     }
-}
+}*/

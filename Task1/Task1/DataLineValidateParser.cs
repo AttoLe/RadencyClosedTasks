@@ -26,8 +26,7 @@ public static class DataLineValidateParser
             var data = line.Replace(fullAddress, "").Split(", ")
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
             
-            dataLine.FirstName = data[0];
-            dataLine.LastName = data[1];
+            dataLine.Name = data[0] + " " + data[1];
             dataLine.Payment = Convert.ToDecimal(data[2]);
             dataLine.Date = DateOnly.ParseExact(data[3], "yyyy-dd-mm", CultureInfo.InvariantCulture);
             dataLine.AccountNumber = Convert.ToInt64(data[4]);

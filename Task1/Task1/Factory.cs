@@ -3,12 +3,15 @@
 public class Factory
 {
     private CancellationTokenSource _cts = new ();
-    
+    private readonly PathStruct _paths;
     private static readonly Dictionary<string, Strategy> _strategies = new()
     {
         { "txt", new TxtStrategy() },
         { "csv", new CsvStrategy() }
     };
+
+    public Factory(PathStruct paths) => 
+        _paths = paths;
     
     private static Strategy FactoryMethod(string type)
     {
@@ -23,11 +26,11 @@ public class Factory
         }
     } 
 
-    public void Start(string pathFrom, string pathTo, string type)
+    public void Start(string type)
     {
         var strategy = FactoryMethod(type);
 
-        var fsw = new FileSystemWatcher(pathFrom);
+        var fsw = new FileSystemWatcher(_paths.PathFrom);
         
         fsw.EnableRaisingEvents = true;
         
@@ -41,7 +44,7 @@ public class Factory
                            | NotifyFilters.Size;
         fsw.Filter = "*." + type;
 
-        fsw.Created += async (_, args) => await strategy.DoTask(args, pathFrom, pathTo, _cts.Token);
+        fsw.Created += async (_, args) => await strategy.DoTask(args, _paths, _cts.Token);
     }
 
     public void Stop() => _cts.Cancel();

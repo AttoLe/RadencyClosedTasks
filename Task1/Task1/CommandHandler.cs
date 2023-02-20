@@ -2,13 +2,20 @@
 
 public static class CommandHandler
 {
-    private static Factory _factory = new();
+    private static Factory _factory = null!;
     
-    public static void Start()
+    public static void Start(string configPath)
     {
-        //TODO config executing
-        _factory.Start(@"S:\data", "out", "txt");
-        _factory.Start(@"S:\data", "out", "csv");
+        var paths = ConfigReader.GetPaths(configPath);
+        
+        if(paths == null)
+            Exit();
+        
+        //@"S:\data"
+        
+        _factory = new Factory(paths!.Value);
+        _factory.Start("txt");
+        _factory.Start("csv");
         Activate();
     }
     

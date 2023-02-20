@@ -4,6 +4,6 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        CommandHandler.Start();
+        CommandHandler.Start("aaaa");
     }
 }
