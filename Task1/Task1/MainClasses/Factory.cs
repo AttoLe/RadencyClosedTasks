@@ -12,7 +12,7 @@ public class Factory
     private readonly IWriteData? _dataWriter;
     private readonly bool _isLoggerEnabled;
     
-    private static readonly Dictionary<string, FileReader> _dataHandlerStrategies = new()
+    private static readonly Dictionary<string, FileReader> _fileReaders = new()
     {
         { "txt", new FileReader() },
         { "csv", new CsvFileReader() }
@@ -29,7 +29,7 @@ public class Factory
     {
         try
         {
-            return _dataHandlerStrategies[type];
+            return _fileReaders[type];
         }
         catch (Exception)
         {
@@ -39,8 +39,8 @@ public class Factory
 
     public void Start(string type)
     {
-        var dataReader = FactoryMethod(type);
-        if(dataReader is null)
+        var fileReader = FactoryMethod(type);
+        if(fileReader is null)
             return;
         
         var fsw = new FileSystemWatcher(_paths.PathFrom);
@@ -58,7 +58,7 @@ public class Factory
         //todo delete extra filters
         fsw.Filter = "*." + type;
         
-        fsw.Created += async (_, args) => await FileHandler.Handle(args, _paths, _cts.Token, dataReader, _dataWriter, _isLoggerEnabled);
+        fsw.Created += async (_, args) => await FileHandler.Handle(args, _paths, _cts.Token, fileReader, _dataWriter);
     }
 
     public void Stop() => _cts.Cancel();

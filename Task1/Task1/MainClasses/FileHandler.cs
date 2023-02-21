@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Task1.DataHandlers.Readers;
+﻿using Task1.DataHandlers.Readers;
 using Task1.DataHandlers.Writers;
 using Task1.Structures;
 using Task1.ValidateParser;
@@ -9,19 +8,15 @@ namespace Task1.MainClasses;
 public static class FileHandler
 {
     public static async Task Handle(FileSystemEventArgs args, PathStruct pathStruct, CancellationToken ct, 
-        FileReader reader, IWriteData? writer, bool isLoggerEnabled)
+        FileReader reader, IWriteData? writer, bool isLoggerEnabled = true)
     {
-        var sw = Stopwatch.StartNew();
-        
         if(ct.IsCancellationRequested)
             return;
         
         var fullPathFrom = pathStruct.PathFrom + "\\" + args.Name;
         var lines = reader.ReadLines(fullPathFrom);
-        
+
         Logger? logger = null;
-        logger?.OnParsedFile(); //why quickest??
-        
         if (isLoggerEnabled)
             logger = new Logger(pathStruct.PathTo);
         
@@ -41,17 +36,15 @@ public static class FileHandler
             }
             else
             {
-                logger?.OnFoundError();
                 isFileValid = false;
+                logger?.OnFoundError();
             }
             
             if (!isFileValid)
                 logger?.OnInvalidFile(fullPathFrom);
-
-            Console.WriteLine(sw.ElapsedMilliseconds);
         }
         
+        logger?.OnParsedFile();
         writer?.WriteLines(validData, pathStruct.PathTo);
-        Console.WriteLine(sw.ElapsedMilliseconds + "\tend");
     }
 }

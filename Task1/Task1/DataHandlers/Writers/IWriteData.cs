@@ -4,5 +4,5 @@ namespace Task1.DataHandlers.Writers;
 
 public interface IWriteData
 {
-    public void WriteLines(List<DataLine> data, string fullPathTo);
+    public void WriteLines(List<DataLine> data, string fullPathToFolder);
 }
