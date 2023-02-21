@@ -6,7 +6,7 @@ public class TimeHandler
 {
     private Logger? _logger;
     
-    public void ActivateTimer(Logger logger, int hour, int periodhour)
+    public void ActivateTimer(Logger logger, int hour, int periodHour)
     {
         _logger = logger;
         var timer = new Timer(Callback);
@@ -14,7 +14,7 @@ public class TimeHandler
         
         try
         { 
-            timer.Change(endTime - DateTime.Now, new TimeSpan(periodhour, 0, 0));
+            timer.Change(endTime - DateTime.Now, new TimeSpan(periodHour, 0, 0));
         }
         catch (Exception)
         {
