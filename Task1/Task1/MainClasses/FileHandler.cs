@@ -7,18 +7,13 @@ namespace Task1.MainClasses;
 
 public static class FileHandler
 {
-    public static async Task Handle(FileSystemEventArgs args, PathStruct pathStruct, CancellationToken ct, 
-        FileReader reader, IWriteData? writer, bool isLoggerEnabled = true)
+    public static async Task Handle(string fullPath, CancellationToken ct, 
+        FileReader reader, WriteData? writer, Logger? logger)
     {
         if(ct.IsCancellationRequested)
             return;
         
-        var fullPathFrom = pathStruct.PathFrom + "\\" + args.Name;
-        var lines = reader.ReadLines(fullPathFrom);
-
-        Logger? logger = null;
-        if (isLoggerEnabled)
-            logger = new Logger(pathStruct.PathTo);
+        var lines = reader.ReadLines(fullPath);
         
         var validData = new List<DataLine>();
         var isFileValid = true;
@@ -41,10 +36,10 @@ public static class FileHandler
             }
             
             if (!isFileValid)
-                logger?.OnInvalidFile(fullPathFrom);
+                logger?.OnInvalidFile(fullPath);
         }
         
         logger?.OnParsedFile();
-        writer?.WriteLines(validData, pathStruct.PathTo);
+        writer?.WriteLines(validData);
     }
 }

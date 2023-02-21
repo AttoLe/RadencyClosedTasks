@@ -6,30 +6,31 @@ namespace Task1.MainClasses;
 
 public class Factory
 {
-    private CancellationTokenSource _cts = new ();
-    private readonly PathStruct _paths;
+    private static Logger? _logger;
     
-    private readonly IWriteData? _dataWriter;
+    private CancellationTokenSource _cts = new ();
+    private readonly (string From, string To) _paths;
+    private readonly WriteData? _dataWriter;
     private readonly bool _isLoggerEnabled;
     
-    private static readonly Dictionary<string, FileReader> _fileReaders = new()
+    private readonly Dictionary<string, FileReader> _dataHandlerStrategies = new()
     {
         { "txt", new FileReader() },
         { "csv", new CsvFileReader() }
     };
 
-    public Factory(PathStruct paths, IWriteData? dataWriter, bool isLoggerEnabled)
+    public Factory((string, string) paths, WriteData? dataWriter, bool isLoggerEnabled)
     {
         _paths = paths;
         _dataWriter = dataWriter;
         _isLoggerEnabled = isLoggerEnabled;
     }
 
-    private static FileReader? FactoryMethod(string type)
+    private FileReader? FactoryMethod(string type)
     {
         try
         {
-            return _fileReaders[type];
+            return _dataHandlerStrategies[type];
         }
         catch (Exception)
         {
@@ -39,11 +40,11 @@ public class Factory
 
     public void Start(string type)
     {
-        var fileReader = FactoryMethod(type);
-        if(fileReader is null)
+        var dataReader = FactoryMethod(type);
+        if(dataReader is null)
             return;
         
-        var fsw = new FileSystemWatcher(_paths.PathFrom);
+        var fsw = new FileSystemWatcher(_paths.From);
         
         fsw.EnableRaisingEvents = true;
         
@@ -55,10 +56,12 @@ public class Factory
                            | NotifyFilters.LastWrite
                            | NotifyFilters.Security
                            | NotifyFilters.Size;
-        //todo delete extra filters
         fsw.Filter = "*." + type;
         
-        fsw.Created += async (_, args) => await FileHandler.Handle(args, _paths, _cts.Token, fileReader, _dataWriter);
+        if (_logger is null && _isLoggerEnabled)
+            _logger = new Logger(_paths.To);
+        
+        fsw.Created += async (_, args) => await FileHandler.Handle(args.FullPath, _cts.Token, dataReader, _dataWriter, _logger);
     }
 
     public void Stop() => _cts.Cancel();

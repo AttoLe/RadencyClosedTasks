@@ -1,4 +1,5 @@
 ﻿using Task1.Structures;
+using Task1.TimeHandlers;
 
 namespace Task1.DataHandlers.Writers;
 
@@ -10,6 +11,7 @@ public class Logger
     public Logger(string pathTo)
     {
         _pathTo = pathTo;
+         new TimeHandler().ActivateTimer(this, 24, 24);
     }
 
     public void OnParsedFile() => Interlocked.Increment(ref _logData.ParsedFiles);
@@ -19,12 +21,18 @@ public class Logger
 
     public void WriteLog()
     {
-       
-    }
-
-    public void WriteLines(string fullPathTo)
-    {
-        //todo write log with date class
-        //File.WriteAllLines(@"S:\passwords.log", new[]{ "safasf", "ffaaf" });
+        var fullPathTo = _pathTo + DateTime.Today.Subtract(new TimeSpan(0, 5, 0)).ToString("MM-dd-yyyy");
+        if(!Directory.Exists(fullPathTo))
+            return;
+        
+        var result = new[]
+        {
+            "parsed_files: " + _logData.ParsedFiles,
+            "parsed_lines: " + _logData.ParsedLines,
+            "found_errors: " + _logData.FoundErrors,
+            $"invalid_files: [{string.Join(", ", _logData.InvalidFiles.Select(inf => inf.Key))}]"
+        };
+        File.WriteAllLines(fullPathTo + @"\meta.log", result);
+        Console.WriteLine("logged");
     }
 }

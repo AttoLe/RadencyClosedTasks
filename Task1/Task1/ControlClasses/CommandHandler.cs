@@ -10,12 +10,11 @@ public static class CommandHandler
     
     public static void Start(string configPath)
     {
-        var paths = ConfigHandler.GetPaths(configPath);
-        
+        (string From, string To)? paths = ConfigHandler.GetPaths(configPath);
         if(paths == null)
             Exit();
-
-        _factory = new Factory(paths!.Value, new JsonWriteData(), true);
+        
+        _factory = new Factory(paths!.Value, new JsonWriteData(paths.Value.To), true);
         _factory.Start("txt");
         _factory.Start("csv");
         Activate();

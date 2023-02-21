@@ -3,11 +3,11 @@ using Task1.Structures;
 
 namespace Task1.DataHandlers.Writers;
 
-public class JsonWriteData : IWriteData
+public class JsonWriteData : WriteData
 {
-    private static int _counter;
-
-    public void WriteLines(List<DataLine> data, string fullPathToFolder)
+    public JsonWriteData(string pathToFolder) : base(pathToFolder) { }
+    
+    public override void WriteLines(List<DataLine> data)
     {
         Interlocked.Increment(ref _counter);
         var localCounter = _counter;
@@ -33,11 +33,11 @@ public class JsonWriteData : IWriteData
             Total = services.Sum(x => x.Payment)
         }).ToList();
 
-        var fullPathTo = fullPathToFolder + DateTime.Today.ToString("mm-dd-yyyy");
-        if (!Directory.Exists(fullPathTo))
-            Directory.CreateDirectory(fullPathTo);
+        var fullPath = _PathToFolder + DateTime.Today.ToString("MM-dd-yyyy");
+        if (!Directory.Exists(fullPath))
+            Directory.CreateDirectory(fullPath);
         
-        File.WriteAllText($@"{fullPathTo}/output{localCounter}.json",
-            JsonSerializer.Serialize(result, new JsonSerializerOptions {WriteIndented = true}));
+        File.WriteAllText($@"{fullPath}/output{localCounter}.json",
+            JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true }));
     }
 }
