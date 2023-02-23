@@ -13,6 +13,7 @@ public static class FileHandler
         if(ct.IsCancellationRequested)
             return;
         
+        Console.WriteLine(fullPath);
         var lines = reader.ReadLines(fullPath);
         
         var validData = new List<DataLine>();

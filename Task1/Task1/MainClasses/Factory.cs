@@ -1,6 +1,5 @@
 ﻿using Task1.DataHandlers.Readers;
 using Task1.DataHandlers.Writers;
-using Task1.Structures;
 
 namespace Task1.MainClasses;
 
@@ -48,20 +47,17 @@ public class Factory
         
         fsw.EnableRaisingEvents = true;
         
-        fsw.NotifyFilter = NotifyFilters.Attributes
-                           | NotifyFilters.CreationTime
-                           | NotifyFilters.DirectoryName
-                           | NotifyFilters.FileName
-                           | NotifyFilters.LastAccess
-                           | NotifyFilters.LastWrite
-                           | NotifyFilters.Security
-                           | NotifyFilters.Size;
+        fsw.NotifyFilter = NotifyFilters.FileName;
         fsw.Filter = "*." + type;
         
         if (_logger is null && _isLoggerEnabled)
             _logger = new Logger(_paths.To);
         
-        fsw.Created += async (_, args) => await FileHandler.Handle(args.FullPath, _cts.Token, dataReader, _dataWriter, _logger);
+        fsw.Created += async (_, args) =>
+        {
+            Console.WriteLine(args.FullPath + "args");
+            await FileHandler.Handle(args.FullPath, _cts.Token, dataReader, _dataWriter, _logger);
+        };
     }
 
     public void Stop() => _cts.Cancel();

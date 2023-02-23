@@ -13,7 +13,7 @@ public static class ConfigHandler
             return null;
 
         var result = File.ReadAllLines(configPath).Select(x => x.Trim('"')).ToList();
-        if (result.Count != 2)
+        if (result.Count != 2 || !Directory.Exists(result[0]) || !Directory.Exists(result[1]))
             return null;
         
         return (result[0], result[1]);
