@@ -22,9 +22,7 @@ public class Logger
     public void WriteLog()
     {
         var fullPathTo = _pathTo + DateTime.Today.Subtract(new TimeSpan(0, 5, 0)).ToString("MM-dd-yyyy");
-        if(!Directory.Exists(fullPathTo))
-            return;
-        
+
         var result = new[]
         {
             "parsed_files: " + _logData.ParsedFiles,
@@ -33,6 +31,5 @@ public class Logger
             $"invalid_files: [{string.Join(", ", _logData.InvalidFiles.Select(inf => inf.Key))}]"
         };
         File.WriteAllLines(fullPathTo + @"\meta.log", result);
-        Console.WriteLine("logged");
     }
 }

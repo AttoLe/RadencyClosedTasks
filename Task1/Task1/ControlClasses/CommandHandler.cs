@@ -7,19 +7,16 @@ namespace Task1.ControlClasses;
 public static class CommandHandler
 {
     private static Factory _factory = null!;
-    
+
     public static void Start(string configPath)
     {
-        (string From, string To)? paths = ConfigHandler.GetPaths(configPath);
-        if(paths == null)
-            Exit();
-        
-        _factory = new Factory(paths!.Value, new JsonWriteData(paths.Value.To), true);
+        (string From, string To) paths = ConfigHandler.GetPaths(configPath);
+        _factory = new Factory(paths, new JsonWriteData(paths.To), true);
         _factory.Start("txt");
         _factory.Start("csv");
         Activate();
     }
-    
+
     private static void Activate()
     {
         Console.WriteLine("App is working\nEnter 's' for Stop or 'e' for Exit");

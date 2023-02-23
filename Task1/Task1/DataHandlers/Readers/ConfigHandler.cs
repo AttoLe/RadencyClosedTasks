@@ -1,21 +1,23 @@
-﻿using Task1.Structures;
+﻿using System.Text.Json;
 
 namespace Task1.DataHandlers.Readers;
 
 public static class ConfigHandler
 {
-    public static (string, string)? GetPaths(string configPath)
+    public static (string, string) GetPaths(string configPath)
     {
-        if(!configPath.Contains("config.txt"))
-            configPath += @"\config.txt";
+        if (!configPath.Contains("config.json"))
+            configPath += @"\config.json";
         
-        if (!File.Exists(configPath) || new FileInfo(configPath).Length == 0)
-            return null;
+        if (!File.Exists(configPath))
+            throw new Exception("No config");
 
-        var result = File.ReadAllLines(configPath).Select(x => x.Trim('"')).ToList();
-        if (result.Count != 2 || !Directory.Exists(result[0]) || !Directory.Exists(result[1]))
-            return null;
+        var result = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(configPath));
         
-        return (result[0], result[1]);
+        /*var result = File.ReadAllLines(configPath).Select(x => x.Trim('"')).ToList();
+        if (result.Count != 2 || !Directory.Exists(result[0]) || !Directory.Exists(result[1]))
+            throw new Exception("Config is empty");*/
+        
+        return (result["from"], result["to"]);
     }
 }

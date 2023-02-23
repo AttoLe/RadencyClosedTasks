@@ -25,24 +25,13 @@ public class Factory
         _isLoggerEnabled = isLoggerEnabled;
     }
 
-    private FileReader? FactoryMethod(string type)
-    {
-        try
-        {
-            return _dataHandlerStrategies[type];
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    } 
+    private FileReader FactoryMethod(string type) => 
+        _dataHandlerStrategies[type];
 
     public void Start(string type)
     {
         var dataReader = FactoryMethod(type);
-        if(dataReader is null)
-            return;
-        
+
         var fsw = new FileSystemWatcher(_paths.From);
         
         fsw.EnableRaisingEvents = true;
@@ -53,11 +42,8 @@ public class Factory
         if (_logger is null && _isLoggerEnabled)
             _logger = new Logger(_paths.To);
         
-        fsw.Created += async (_, args) =>
-        {
-            Console.WriteLine(args.FullPath + "args");
+        fsw.Created += async (_, args) => 
             await FileHandler.Handle(args.FullPath, _cts.Token, dataReader, _dataWriter, _logger);
-        };
     }
 
     public void Stop() => _cts.Cancel();

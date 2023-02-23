@@ -12,14 +12,7 @@ public class TimeHandler
         var timer = new Timer(Callback);
         var endTime = DateTime.Today.AddHours(hour);
         
-        try
-        { 
-            timer.Change(endTime - DateTime.Now, new TimeSpan(periodHour, 0, 0));
-        }
-        catch (Exception)
-        {
-           //error
-        }
+        timer.Change(endTime - DateTime.Now, new TimeSpan(periodHour, 0, 0));
     }
 
     private void Callback(object? state) => _logger?.WriteLog();
