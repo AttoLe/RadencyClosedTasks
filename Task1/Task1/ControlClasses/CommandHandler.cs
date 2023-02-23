@@ -1,16 +1,22 @@
-﻿namespace Task1;
+﻿using Task1.DataHandlers.Readers;
+using Task1.DataHandlers.Writers;
+using Task1.MainClasses;
+
+namespace Task1.ControlClasses;
 
 public static class CommandHandler
 {
-    private static Factory _factory = new();
-    
-    public static void Start()
+    private static Factory _factory = null!;
+
+    public static void Start(string configPath)
     {
-        //TODO config executing
-        _factory.Start(@"S:\data", "out", "txt");
+        (string From, string To) paths = ConfigHandler.GetPaths(configPath);
+        _factory = new Factory(paths, new JsonWriteData(paths.To), true);
+        _factory.Start("txt");
+        _factory.Start("csv");
         Activate();
     }
-    
+
     private static void Activate()
     {
         Console.WriteLine("App is working\nEnter 's' for Stop or 'e' for Exit");

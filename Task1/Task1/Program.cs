@@ -1,9 +1,18 @@
-﻿namespace Task1;
+﻿using Task1.ControlClasses;
+
+namespace Task1;
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        CommandHandler.Start();
+        try
+        {
+            CommandHandler.Start(@"S:\data");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

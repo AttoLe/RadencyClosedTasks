@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Task1.Structures;
 
-namespace Task1;
+namespace Task1.ValidateParser;
 
-public static class DataLineValidateParserTxt
+public static class DataLineValidateParser
 {
     public static bool Validate(string line)
     {
@@ -13,7 +14,7 @@ public static class DataLineValidateParserTxt
         return Regex.IsMatch(line, allRegex);
     }
 
-    public static bool ParserTxt(string line, ref DataLine dataLine)
+    public static bool Parse(string line, ref DataLine dataLine)
     {
         try
         {
@@ -21,13 +22,12 @@ public static class DataLineValidateParserTxt
             var i2 = line.IndexOf("”,", StringComparison.InvariantCulture);
 
             var fullAddress = line.Substring(i1, i2 - i1 + 1);
-            dataLine.City = fullAddress.Split(',').First().Trim();
+            dataLine.City = fullAddress.Split(',').First().Trim(' ', '“');
             
             var data = line.Replace(fullAddress, "").Split(", ")
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
             
-            dataLine.FirstName = data[0];
-            dataLine.LastName = data[1];
+            dataLine.Name = data[0] + " " + data[1];
             dataLine.Payment = Convert.ToDecimal(data[2]);
             dataLine.Date = DateOnly.ParseExact(data[3], "yyyy-dd-mm", CultureInfo.InvariantCulture);
             dataLine.AccountNumber = Convert.ToInt64(data[4]);
