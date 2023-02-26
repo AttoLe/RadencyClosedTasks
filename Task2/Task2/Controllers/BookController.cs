@@ -13,6 +13,7 @@ public class BookController : Controller
     private readonly IGenericRepository<Book> _bookRepository;
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
+    
     public BookController(IGenericRepository<Book> bookRepository, ILogger<BookController> logger, IMapper mapper, IConfiguration configuration)
     {
         _bookRepository = bookRepository;
@@ -22,14 +23,14 @@ public class BookController : Controller
     }
 
     [HttpGet("books")]
-    public ActionResult<IEnumerable<BookWReviewNumDTO>> GetAll([FromQuery(Name = "order")] string? orderBy)
+    public async Task<ActionResult<IEnumerable<BookWReviewNumDTO>>> GetAll([FromQuery(Name = "order")] string? orderBy)
     {
         var filter = new[] {"author", "title"};
         
         if (orderBy is null || !filter.Contains(orderBy))
             return BadRequest("Invalid order");
         
-        var books = _bookRepository.GetAll().Select(_mapper.Map<BookWReviewNumDTO>).ToList();
+        var books = (await _bookRepository.GetAll()).Select(_mapper.Map<BookWReviewNumDTO>);
         
         var result = orderBy == filter[0] 
             ? books.OrderBy(book => book.Author)
@@ -38,9 +39,9 @@ public class BookController : Controller
     }
     
     [HttpGet("recommended")]
-    public ActionResult<IEnumerable<BookWReviewNumDTO>> GetBooksRecommended([FromQuery(Name = "genre")] string? genre)
+    public async Task<ActionResult<IEnumerable<BookWReviewNumDTO>>> GetBooksRecommended([FromQuery(Name = "genre")] string? genre)
     {
-        var booksCol = _bookRepository.GetAll().ToList();
+        var booksCol = (await _bookRepository.GetAll());
 
         if(booksCol.All(book => book.Genre == genre))
             return NotFound("No books with this genre");
@@ -50,6 +51,8 @@ public class BookController : Controller
             .Where(dto => dto.ReviewsNumber > 10)
             .OrderByDescending(dto => dto.AvgRating)
             .Take(10);
+        
+        var v = Task.FromResult(result);
         return Ok(result);
     }
 

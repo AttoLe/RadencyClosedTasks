@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Task2.Database.Repository;
 
@@ -19,7 +20,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbTable = _context.Set<T>();
     }
 
-    public IEnumerable<T> GetAll() => _dbTable;
+    public async Task<IEnumerable<T>> GetAll() => await _dbTable.ToListAsync();
 
     public async Task<T?> GetById(object? id) => await _dbTable.FindAsync(id);
 

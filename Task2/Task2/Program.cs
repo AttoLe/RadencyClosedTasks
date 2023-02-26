@@ -1,5 +1,4 @@
 using System.Reflection;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Task2.Database.Entities;
