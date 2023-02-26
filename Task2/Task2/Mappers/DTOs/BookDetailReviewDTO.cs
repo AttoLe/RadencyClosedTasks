@@ -1,6 +1,6 @@
-﻿using Task2.Entities;
+﻿using Task2.Database.Entities;
 
-namespace Task2.DTOs;
+namespace Task2.Mappers.DTOs;
 
 public class BookDetailReviewDTO
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Task2.Entities;
+using Task2.Database.Entities;
 
-namespace Task2.Repository;
+namespace Task2.Database;
 
 public class LibraryContext : DbContext
 {

@@ -1,4 +1,4 @@
-﻿namespace Task2.DTOs;
+﻿namespace Task2.Mappers.DTOs;
 
 public class IdDTO
 {

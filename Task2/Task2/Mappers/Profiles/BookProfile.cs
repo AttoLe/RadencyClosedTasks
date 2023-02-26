@@ -1,8 +1,8 @@
-﻿using Task2.DTOs;
-using Task2.Entities;
-using AutoMapper;
+﻿using AutoMapper;
+using Task2.Database.Entities;
+using Task2.Mappers.DTOs;
 
-namespace Task2.Profiles;
+namespace Task2.Mappers.Profiles;
 
 public class BookProfile : Profile
 {

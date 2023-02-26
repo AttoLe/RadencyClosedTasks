@@ -1,35 +1,35 @@
-﻿using Task2.DTOs;
-using Task2.Entities;
-using Task2.Repository;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Task2.Database.Entities;
+using Task2.Database.Repository;
+using Task2.Mappers.DTOs;
 
 namespace Task2.Controllers;
 
 public class BookController : Controller
 {
     private readonly ILogger<BookController> _logger;
-    private readonly IGenericRepository<Book> _repository;
+    private readonly IGenericRepository<Book> _bookRepository;
     private readonly IMapper _mapper;
-    
-    public BookController(IGenericRepository<Book> repository, ILogger<BookController> logger, IMapper mapper)
+    private readonly IConfiguration _configuration;
+    public BookController(IGenericRepository<Book> bookRepository, ILogger<BookController> logger, IMapper mapper, IConfiguration configuration)
     {
-        _repository = repository;
+        _bookRepository = bookRepository;
+        _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
 
     [HttpGet("books")]
-    public async Task<ActionResult<IEnumerable<BookWReviewNumDTO>>> GetAll([FromQuery(Name = "order")] string? orderBy)
+    public ActionResult<IEnumerable<BookWReviewNumDTO>> GetAll([FromQuery(Name = "order")] string? orderBy)
     {
-        var booksCol = _repository.GetAll();
         var filter = new[] {"author", "title"};
         
         if (orderBy is null || !filter.Contains(orderBy))
-            return BadRequest("Provider order is invalid");
-
-        var books = (await booksCol).Select(_mapper.Map<BookWReviewNumDTO>).ToList();
+            return BadRequest("Invalid order");
+        
+        var books = _bookRepository.GetAll().Select(_mapper.Map<BookWReviewNumDTO>).ToList();
         
         var result = orderBy == filter[0] 
             ? books.OrderBy(book => book.Author)
@@ -38,60 +38,91 @@ public class BookController : Controller
     }
     
     [HttpGet("recommended")]
-    public async Task<ActionResult<IEnumerable<BookWReviewNumDTO>>> GetBooksRecommended([FromQuery(Name = "genre")] string? genre)
+    public ActionResult<IEnumerable<BookWReviewNumDTO>> GetBooksRecommended([FromQuery(Name = "genre")] string? genre)
     {
-        var booksCol = (await _repository.GetAll()).ToList();
+        var booksCol = _bookRepository.GetAll().ToList();
 
         if(booksCol.All(book => book.Genre == genre))
-            return NotFound("No genre");
+            return NotFound("No books with this genre");
 
         var result = booksCol.Where(book => book.Genre == genre)
             .Select(_mapper.Map<BookWReviewNumDTO>)
             .Where(dto => dto.ReviewsNumber > 10)
-            .OrderByDescending(dto => dto.AvgRating).Take(10);
+            .OrderByDescending(dto => dto.AvgRating)
+            .Take(10);
         return Ok(result);
     }
 
     [HttpPost("books/{id:int}")]
     public async Task<ActionResult<BookWReviewNumDTO>> GetBookDetails(int id)
     {
-        var book = await _repository.GetById(id);
+        var book = await _bookRepository.GetById(id);
         if (book is null)
             return NotFound("Book was not found");
 
         var result = _mapper.Map<BookDetailReviewDTO>(book);
         return Ok(result);
     }
-    
-    /*
-     * delete with secret key
-     */
 
-    [HttpPost("/books/save")]
-    public async Task<ActionResult> SaveBook([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] BookDTO bookDTO)
+    [HttpDelete("books/{id:int}")]
+    public async Task<ActionResult> DeleteBook([FromQuery(Name = "secret")] string secret, int id)
+    {
+        var secretKey = _configuration.GetValue<string>("secretKey");
+
+        if (secretKey != secret)
+            return BadRequest("Invalid secret key");
+        
+        var book = await _bookRepository.GetById(id);
+        if (book is null)
+            return NotFound("Book was not found");
+
+        await _bookRepository.Delete(book);
+        return Ok();
+    }
+
+    [HttpPost("books/save")]
+    public async Task<ActionResult<IdDTO>> SaveBook(
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] BookDTO bookDTO)
     {
         var book = _mapper.Map<Book>(bookDTO);
 
         if (bookDTO.BookId is not null)
-            await _repository.Update(book);
+            await _bookRepository.Update(book);
         else
-            await _repository.Insert(book);
+            await _bookRepository.Insert(book);
 
         return Ok(_mapper.Map<IdDTO>(book));
     }
     
-    [HttpPost("/books/{id:int}/review")]
-    public async Task<ActionResult> SaveReview([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] ReviewDTO reviewDto, int id)
+    [HttpPut("books/{id:int}/review")]
+    public async Task<ActionResult<IdDTO>> SaveReview(
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] ReviewDTO reviewDTO, int id)
     {
-        var bookSource = await _repository.GetById(id);
-        var review = _mapper.Map<Review>(reviewDto);
-        
+        var bookSource = await _bookRepository.GetById(id);
+        var review = _mapper.Map<Review>(reviewDTO);
+
         if (bookSource is null)
-            return BadRequest("Provided book id is invalid");
+            return BadRequest("Invalid book id");
         
         bookSource.Reviews.Add(review);
-        await _repository.Update(bookSource);
+        await _bookRepository.Update(bookSource);
 
         return Ok(_mapper.Map<IdDTO>(review));
+    }
+
+    [HttpPut("books/{id:int}/rate")]
+    public async Task<ActionResult<IdDTO>> RateBook(
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] RatingDTO rateDTO, int id)
+    {
+        var bookSource = await _bookRepository.GetById(id);
+        var rating = _mapper.Map<Rating>(rateDTO);
+        
+        if(bookSource is null)
+            return BadRequest("Invalid book id");
+        
+        bookSource.Ratings.Add(rating);
+        await _bookRepository.Update(bookSource);
+        
+        return Ok(_mapper.Map<IdDTO>(rating));
     }
 }

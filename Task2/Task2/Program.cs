@@ -1,8 +1,7 @@
 using System.Reflection;
 using AutoMapper;
-using Task2.Entities;
-using Task2.Profiles;
-using Task2.Repository;
+using Task2.Database.Entities;
+using Task2.Database.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
 builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(Program)));
+
+//services.AddValidatorsFromAssemblyContaining<PersonValidator>();
+
 
 var app = builder.Build();
 

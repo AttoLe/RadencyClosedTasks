@@ -1,4 +1,4 @@
-﻿namespace Task2.Entities;
+﻿namespace Task2.Database.Entities;
 
 public class Rating
 {

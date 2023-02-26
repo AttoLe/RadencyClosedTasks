@@ -1,8 +1,8 @@
-﻿namespace Task2.Repository;
+﻿namespace Task2.Database.Repository;
 
 public interface IGenericRepository<T> where T : class
 {
-    public Task<IEnumerable<T>> GetAll();
+    public IEnumerable<T> GetAll();
     public Task<T?> GetById(object? id);
     public Task Insert(T obj);
     public Task Update(T obj);

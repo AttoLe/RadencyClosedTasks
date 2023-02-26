@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Task2.Repository;
+namespace Task2.Database.Repository;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
@@ -19,7 +19,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbTable = _context.Set<T>();
     }
 
-    public Task<IEnumerable<T>> GetAll() => Task.FromResult<IEnumerable<T>>(_dbTable);
+    public IEnumerable<T> GetAll() => _dbTable;
 
     public async Task<T?> GetById(object? id) => await _dbTable.FindAsync(id);
 
