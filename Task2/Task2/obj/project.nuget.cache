@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "AXcbVbbBHpDP4XCwLxboSN929HLo5T1mUNm0Ow04FxcPoAGvzsdIl3xXloml82+eQh4NiJlGwmJsAfFaHUgoPw==",
+  "dgSpecHash": "pU4VCVire7mnFAIIe0wv0vUs+bbX47zGvb76LwHVa9aPQEoY7NGgLOkTPsqNJPT+E8vo/wg1bhw/ao6XDFmh2A==",
   "success": true,
   "projectFilePath": "S:\\repos\\RedencyClosedTasks\\Task2\\Task2\\Task2.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\sergi\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
+    "C:\\Users\\sergi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
     "C:\\Users\\sergi\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.3\\microsoft.entityframeworkcore.analyzers.7.0.3.nupkg.sha512",

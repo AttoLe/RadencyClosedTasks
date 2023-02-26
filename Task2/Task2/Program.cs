@@ -1,4 +1,7 @@
+using System.Reflection;
+using AutoMapper;
 using Task2.Entities;
+using Task2.Profiles;
 using Task2.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
+builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(Program)));
 
 var app = builder.Build();
 

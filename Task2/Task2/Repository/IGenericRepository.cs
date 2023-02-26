@@ -2,9 +2,10 @@
 
 public interface IGenericRepository<T> where T : class
 {
-    Task<IEnumerable<T>> GetAll();
-    Task<T?> GetById(object? id);
-    Task Insert(T obj);
-    Task Update(T obj);
-    Task Delete(object id);
+    public Task<IEnumerable<T>> GetAll();
+    public Task<T?> GetById(object? id);
+    public Task Insert(T obj);
+    public Task Update(T obj);
+    public Task Delete(T obj);
+    Task Save();
 }

@@ -7,11 +7,9 @@ public class LibraryContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
         optionsBuilder.UseLazyLoadingProxies().UseInMemoryDatabase(databaseName: "Library");
-    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         modelBuilder.SeedBooks();
         modelBuilder.SeedReviews();
         modelBuilder.SeedRatings();
