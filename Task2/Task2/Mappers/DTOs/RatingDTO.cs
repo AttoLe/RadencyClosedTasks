@@ -2,5 +2,5 @@
 
 public class RatingDTO
 {
-    public int RatingId { get; set; }
+    public int Score { get; set; }
 }

@@ -112,10 +112,10 @@ public class BookController : Controller
 
     [HttpPut("books/{id:int}/rate")]
     public async Task<ActionResult<IdDTO>> RateBook(
-        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] RatingDTO rateDTO, int id)
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] RatingDTO ratingDTO, int id)
     {
         var bookSource = await _bookRepository.GetById(id);
-        var rating = _mapper.Map<Rating>(rateDTO);
+        var rating = _mapper.Map<Rating>(ratingDTO);
         
         if(bookSource is null)
             return BadRequest("Invalid book id");

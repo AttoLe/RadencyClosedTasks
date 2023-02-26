@@ -1,5 +1,7 @@
 using System.Reflection;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Task2.Database.Entities;
 using Task2.Database.Repository;
 
@@ -7,11 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
 builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(Program)));
 
-//services.AddValidatorsFromAssemblyContaining<PersonValidator>();
-
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(Program)));
 
 var app = builder.Build();
 
