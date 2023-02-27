@@ -19,6 +19,8 @@ public class BookProfile : Profile
             .ForMember(d => d.AvgRating,
                 o => o.MapFrom(b => b.Ratings.Average(r => r.Score)));
 
+        CreateMap<BookDTO, Book>();
+        
         CreateMap<Book, IdDTO>();
     }
 }

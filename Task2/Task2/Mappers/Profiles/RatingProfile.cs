@@ -8,6 +8,6 @@ public class RatingProfile : Profile
 {
     public RatingProfile()
     {
-        CreateMap<Rating, IdDTO>();
+        CreateMap<RatingDTO, Rating>();
     }
 }

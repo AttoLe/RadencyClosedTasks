@@ -43,9 +43,6 @@ public class BookController : Controller
     {
         var booksCol = (await _bookRepository.GetAll());
 
-        if(booksCol.All(book => book.Genre == genre))
-            return NotFound("No books with this genre");
-
         var result = booksCol.Where(book => book.Genre == genre)
             .Select(_mapper.Map<BookWReviewNumDTO>)
             .Where(dto => dto.ReviewsNumber > 10)
@@ -89,11 +86,17 @@ public class BookController : Controller
     {
         var book = _mapper.Map<Book>(bookDTO);
 
-        if (bookDTO.BookId is not null)
-            await _bookRepository.Update(book);
-        else
+        if (bookDTO.Id is null)
             await _bookRepository.Insert(book);
-
+        else
+        {
+            var flag = (await _bookRepository.GetAll()).Select(b => b.Id).Contains(bookDTO.Id!.Value);
+            if(flag)
+                await _bookRepository.Update(book);
+            else
+                await _bookRepository.Insert(book);
+        }
+        
         return Ok(_mapper.Map<IdDTO>(book));
     }
     
@@ -114,7 +117,7 @@ public class BookController : Controller
     }
 
     [HttpPut("books/{id:int}/rate")]
-    public async Task<ActionResult<IdDTO>> RateBook(
+    public async Task<ActionResult> RateBook(
         [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] RatingDTO ratingDTO, int id)
     {
         var bookSource = await _bookRepository.GetById(id);
@@ -126,6 +129,6 @@ public class BookController : Controller
         bookSource.Ratings.Add(rating);
         await _bookRepository.Update(bookSource);
         
-        return Ok(_mapper.Map<IdDTO>(rating));
+        return Ok();
     }
 }
