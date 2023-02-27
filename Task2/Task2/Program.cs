@@ -17,6 +17,7 @@ builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services.AddHttpLogging(logging => 
