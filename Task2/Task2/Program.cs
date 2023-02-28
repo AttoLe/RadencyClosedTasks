@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.HttpLogging;
+using Task2.Database;
 using Task2.Database.Entities;
 using Task2.Database.Repository;
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<LibraryContext>();
 builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

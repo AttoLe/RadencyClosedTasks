@@ -11,18 +11,27 @@ import {BookListItem} from "../interfaces/interface";
 export class BooksListComponent implements OnInit{
 
   books!:Observable<BookListItem[]>
+  isAllBook!: boolean;
+
   constructor(private bookService: BookService) {}
 
   ngOnInit(){
     this.onAllTabClick();
+    this.bookService.BookSavedEvent.subscribe(() =>{
+      if(this.isAllBook)
+        this.onAllTabClick();
+      else
+        this.onRecommendClick();
+    })
   }
 
   onAllTabClick(){
     this.books = this.bookService.getAllBooks();
-    console.log(this.books);
+    this.isAllBook = true;
   }
 
   onRecommendClick(){
     this.books = this.bookService.getRecommendedBooks();
+    this.isAllBook = false;
   }
 }

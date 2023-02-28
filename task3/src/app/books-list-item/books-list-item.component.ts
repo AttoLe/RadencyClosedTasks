@@ -4,6 +4,7 @@ import {BookService} from "../services/book.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ViewBookComponent} from "../view-book/view-book.component";
 import {EditBookComponent} from "../edit-book/edit-book.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-books-list-item',
@@ -17,9 +18,5 @@ export class BooksListItemComponent{
   OnViewClick(){
     const modal = this.modal.open(ViewBookComponent);
     modal.componentInstance.id = this.book?.id;
-  }
-
-  onEditClick(){
-
   }
 }

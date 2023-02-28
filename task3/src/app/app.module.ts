@@ -10,8 +10,7 @@ import { BooksPageComponent } from './books-page/books-page.component';
 import { BooksListItemComponent } from './books-list-item/books-list-item.component';
 import {HttpClientModule} from '@angular/common/http';
 import { BooksListComponent } from './books-list/books-list.component';
-
-
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,12 +21,13 @@ import { BooksListComponent } from './books-list/books-list.component';
     BooksListItemComponent,
     BooksListComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgbModule,
+        HttpClientModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -7,6 +7,7 @@ using Task2.Mappers.DTOs;
 
 namespace Task2.Controllers;
 
+[ApiController]
 public class BookController : Controller
 {
     private readonly ILogger<BookController> _logger;
@@ -88,8 +89,8 @@ public class BookController : Controller
             await _bookRepository.Insert(book);
         else
         {
-            var flag = (await _bookRepository.GetAll()).Select(b => b.Id).Contains(bookDTO.Id!.Value);
-            if(flag)
+            var flag = await _bookRepository.Contains(book.Id);
+            if (flag)
                 await _bookRepository.Update(book);
             else
                 await _bookRepository.Insert(book);

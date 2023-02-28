@@ -1,9 +1,12 @@
-﻿namespace Task2.Database.Repository;
+﻿using Task2.Database.Entities;
 
-public interface IGenericRepository<T> where T : class
+namespace Task2.Database.Repository;
+
+public interface IGenericRepository<T> where T : BaseEntity
 {
     public Task<IEnumerable<T>> GetAll();
-    public Task<T?> GetById(object? id);
+    public Task<bool> Contains(int id);
+    public Task<T?> GetById(int id);
     public Task Insert(T obj);
     public Task Update(T obj);
     public Task Delete(T obj);

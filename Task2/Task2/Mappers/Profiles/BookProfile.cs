@@ -13,11 +13,13 @@ public class BookProfile : Profile
                 o =>
                     o.MapFrom(b => Math.Round(b.Ratings.DefaultIfEmpty().Average(r => r!.Score), 2)))
             .ForMember(d => d.ReviewsNumber,
-                o => o.MapFrom(b => b.Reviews.DefaultIfEmpty().Count()));
+                o =>
+                    o.MapFrom(b => b.Reviews.DefaultIfEmpty().Count()));
 
         CreateMap<Book, BookDetailReviewDTO>()
             .ForMember(d => d.AvgRating,
-                o => o.MapFrom(b => Math.Round(b.Ratings.Average(r => r.Score),2)));
+                o =>
+                    o.MapFrom(b => Math.Round(b.Ratings.DefaultIfEmpty().Average(r => r!.Score),2)));
 
         CreateMap<BookDTO, Book>();
         
