@@ -21,7 +21,6 @@ export class EditBookComponent implements OnInit{
 
   OnAddBook(){
     if(this.editedBook){
-      console.log(JSON.stringify(this.editedBook));
       this.bookService.saveBook(this.editedBook).subscribe();
       this.router.navigate(['/']);
     }
