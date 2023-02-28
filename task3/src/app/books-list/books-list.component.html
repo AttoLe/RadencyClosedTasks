@@ -1,0 +1,19 @@
+
+<div class="container text-center">
+  <div class="box">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" (click)="onAllTabClick()">All</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="onRecommendClick()">Recommended</a>
+      </li>
+    </ul>
+    <div class="container text-center"></div>
+  </div>
+    <div class="row row-cols-2">
+      <app-books-list-item *ngFor="let book of books | async" [book]="book">
+
+      </app-books-list-item>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="modal-header text-center">
+    <label class="modal-title p-1 h4">Details</label>
+    <button class="btn-close" aria-label="Close" (click)="modal.close()"></button>
+  </div>
+  <hr/>
+  <div class="modal-body" *ngIf="(book$ | async) as book">
+      <div class="row">
+        <div class="col">
+          <img class="w-100" src="{{book.cover}}" alt="">
+          <div class="text-center">
+            <label class="p2 text-center">Rating: {{book.avgRating}} Reviews:{{book.reviews.length}}</label>
+          </div>
+        </div>
+        <div class="col">
+          <label class="p2 w-100">{{book.title}}</label>
+          <label class="p2 w-100">{{book.author}}, {{book.genre}}</label>
+          <p class="w-100 h-100">{{book.content}}</p>
+        </div>
+      </div>
+      <div class="overflow-auto row" style="max-height: 50vh;">
+          <div class="row" *ngFor="let review of book.reviews">
+            <hr/>
+            <p>{{review.message}}</p>
+            <p>{{review.reviewer}}</p>
+      </div>
+    </div>
+  </div>
