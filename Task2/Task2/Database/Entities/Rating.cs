@@ -1,8 +1,7 @@
 ﻿namespace Task2.Database.Entities;
 
-public class Rating
+public class Rating : BaseEntity
 {
-    public int Id { get; set; }
     public int BookId { get; set; }
     public int Score { get; set; }
 }

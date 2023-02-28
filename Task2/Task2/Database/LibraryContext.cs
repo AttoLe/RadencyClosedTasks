@@ -14,7 +14,6 @@ public class LibraryContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
         optionsBuilder.UseLazyLoadingProxies().UseInMemoryDatabase(databaseName: "Library");
     
-    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.SeedBooks();
@@ -36,7 +35,7 @@ public static class ModelBuilderExtensions
                 Author = "author" + new Random().Next(1, 4),
                 Title = "title" + i,
                 Content = "content" + i,
-                Cover = "cover" + i,
+                Cover = "https://img.delicious.com.au/WqbvXLhs/del/2016/06/more-the-merrier-31380-2.jpg",
                 Genre = "genre" + new Random().Next(1, 4)
             }));
     }

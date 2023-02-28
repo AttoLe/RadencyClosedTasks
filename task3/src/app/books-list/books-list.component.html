@@ -11,9 +11,8 @@
     </ul>
     <div class="container text-center"></div>
   </div>
-    <div class="row row-cols-2">
-      <app-books-list-item *ngFor="let book of books | async" [book]="book">
-
-      </app-books-list-item>
+    <div class="row row-cols-2 overflow-auto" style="height: 50vh">
+        <app-books-list-item *ngFor="let book of books | async" [book]="book">
+        </app-books-list-item>
     </div>
 </div>

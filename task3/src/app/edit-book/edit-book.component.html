@@ -1,21 +1,21 @@
-<div class="container">
+<div class="container" *ngIf="editedBook">
   <div class="card text-bg-light">
     <div class="card-header h4">{{IsAdding ? "Add" : "Edit"}} Book</div>
     <div class="card-body">
       <div class="row">
         <div class="col-6">
           <div class="row">
-            <div class="col-3 offset-2">
-              <label class="p-2">Title</label>
-              <label class="p-2">Cover</label>
-              <label class="p-2">Genre</label>
-              <label class="p-2">Author</label>
+            <div class="col-2 offset-1">
+              <label class="p-2 w-100">Title</label>
+              <label class="p-2 w-100">Cover</label>
+              <label class="p-2 w-100">Genre</label>
+              <label class="p-2 w-100">Author</label>
             </div>
-            <div class="col-7">
-              <input type="text" class="form-control" value="{{editedBook?.title}}">
-              <input type="file" class="form-control">
-              <input type="text" class="form-control" value="{{editedBook?.genre}}">
-              <input type="text" class="form-control" value="{{editedBook?.author}}">
+            <div class="col-9">
+              <input type="text" class="form-control w-100" [(ngModel)]="editedBook.title">
+              <input type="file" class="form-control w-100" (change)="onFilePathChange($event)">
+              <input type="text" class="form-control w-100" [(ngModel)]="editedBook.genre">
+              <input type="text" class="form-control w-100" [(ngModel)]="editedBook.author">
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
               <label>Content</label>
             </div>
             <div class="col-9 h-100 overflow-auto">
-              <input class="form-control h-100" id="Content" value="{{editedBook?.content}}">
+              <textarea rows = "5" class="form-control h-100" id="Content" [(ngModel)]="editedBook.content"> </textarea>
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="row justify-content-evenly">
           <div class="col-5"></div>
           <div class="col-1">
-            <button type="button" class = "btn btn-info text-white" (click) = "OnAddBook()">Add</button>
+            <button type="button" class = "btn btn-info text-white" (click) = "OnAddBook()">{{IsAdding ? "Add" : "Edit"}}</button>
           </div>
           <div class="col-1">
             <button type="button" class = "btn btn-warning text-white" routerLink="">Clear</button>

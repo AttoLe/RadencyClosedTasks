@@ -26,7 +26,7 @@ export interface Review{
 export interface Book{
   id: number,
   title: string,
-  author:string,
+  author: string,
   cover: string,
   content: string,
   genre: string,
