@@ -9,6 +9,7 @@ public class BookDetailReviewDTO
     public string Author { get; set; }
     public string Cover { get; set; }
     public string Content { get; set; }
+    public string Genre { get; set; }
     public decimal AvgRating { get; set; }
     public ICollection<Review> Reviews { get; set; }
 }

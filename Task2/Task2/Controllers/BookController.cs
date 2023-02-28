@@ -42,18 +42,16 @@ public class BookController : Controller
     public async Task<ActionResult<IEnumerable<BookWReviewNumDTO>>> GetBooksRecommended([FromQuery(Name = "genre")] string? genre)
     {
         var booksCol = (await _bookRepository.GetAll());
-
-        var result = booksCol.Where(book => book.Genre == genre)
-            .Select(_mapper.Map<BookWReviewNumDTO>)
-            .Where(dto => dto.ReviewsNumber > 10)
-            .OrderByDescending(dto => dto.AvgRating)
-            .Take(10);
+        var result = booksCol.Select(_mapper.Map<BookWReviewNumDTO>).Where(dto => dto.ReviewsNumber > 10)
+            .OrderByDescending(dto => dto.AvgRating).ToList();
         
-        var v = Task.FromResult(result);
-        return Ok(result);
+        if (result.Any(dto => dto.Genre == genre))
+            result = result.Where(dto => dto.Genre == genre).ToList();
+
+        return Ok(result.Take(10));
     }
 
-    [HttpPost("books/{id:int}")]
+    [HttpGet("books/{id:int}")]
     public async Task<ActionResult<BookWReviewNumDTO>> GetBookDetails(int id)
     {
         var book = await _bookRepository.GetById(id);
