@@ -1,0 +1,26 @@
+<div class="col box p-3 border border-secondary rounded-3 justify-content-between" *ngIf="book">
+
+  <div class="row">
+    <div class="col-4">
+      <img src="" class="float-start book-image me-2" alt="...">
+    </div>
+
+    <div class="col-8">
+      <div class="d-flex justify-content-between">
+        <span class="fs-3">{{book.title}} </span>
+        <div>
+          <button type="button" class="btn btn-outline-dark m-1" (click)="OnViewClick()">👁️</button>
+          <button type="button" class="btn btn-outline-dark" routerLink="/editing/{{this.book.id}}">✏️</button>
+        </div>
+      </div>
+      <div class="row column-gap-4">
+          <div class="col-4">
+            <span>Reviews: {{book.reviewsNumber}}</span>
+          </div>
+        <div class="col-4">
+            <span>Rating: {{book.avgRating}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
